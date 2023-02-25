@@ -1,0 +1,58 @@
+<!-- mangas/templates/mangas/list-chapters.html -->
+
+{% extends "layouts/layout.html" %}
+{% block title %}
+    List Volumes {{ block.super }}
+{% endblock title %}
+{% block content %}
+  <h4><small>List Volumes</small></h4>
+  <h4>{{manga.name}}</h4>
+  <hr>
+  {% if username != "" %}
+    {% if username != manga.author %}
+      {% if is_subscribed == 0 %}
+        <a class="btn btn-primary btn-lg" role="button" href="{% url 'mangas:subscribe-manga' manga.id %}">Subscribe Manga</a>
+      {% else %}
+        <a href="#" class="btn btn-primary btn-lg disabled" role="button" aria-disabled="true">
+          Subscribed
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check" viewBox="0 0 16 16">
+            <path d="M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z"/>
+          </svg>
+        </a>  
+      {% endif %}
+    {% endif %} 
+  {% endif %}
+  <br><br>
+
+  <table class="table table-hover">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Volume</th>
+        <th scope="col">Timestamp</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if volumes %}
+        {% for volume in volumes %}
+          {% if volume.manga_id == manga.id %}
+            <tr>
+              <td><a href="{% url 'mangas:content' pk=manga.id volume_id=volume.name chapter_name=volume.chapter %}"> {{volume.name}} </a></td>
+              <th scope="row">{{volume.timestamp}}</th>
+            </tr>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </tbody>
+  </table>
+
+  <!-- {% if volumes %}
+    {% for volume in volumes %}
+        {% if volume.manga_id == manga.id %}
+          <p><a href="#"> {{volume.name}} </a></p>
+        {% endif %}
+    <br><br>
+    {% endfor %}
+  {% else %}
+    No manga.
+  {% endif %} -->
+{% endblock content %}

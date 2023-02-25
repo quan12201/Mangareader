@@ -1,0 +1,225 @@
+<!-- mangas/templates/layouts/layout.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{% block title %}{% endblock title %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,700&display=swap" rel="stylesheet">
+
+        <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+        <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+        <link rel="stylesheet" href="{% static 'style_font.css' %}">
+
+        <link rel="stylesheet" href="{% static 'owl.carousel.min.css' %}">
+
+        <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+
+        <link rel="stylesheet" href="{% static 'style_noti.css' %}">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.0/font/bootstrap-icons.css">
+        
+        <style>
+          footer {
+            background-color: #555;
+            color: white;
+            height: 20px;
+            bottom: 0%;
+            position: fixed;
+          }
+          
+          footer p {
+            font-size: small;
+          }
+
+          .active {
+            background-color: #CDE990;
+          }
+          #search-button {
+            height: 30px;
+          }
+          #form1 {
+            height: 29px;
+            width: 300px;
+          }
+          .text-right {
+            text-align: right;
+          }
+
+          .center-div {
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            object-position: center;
+          }
+
+          #next-chap {
+            position: relative;
+            left: 600px;
+            height: 30px;
+            width: 120px;
+            align-items: flex-end;
+            /* right: 0%; */
+            /* object-position: right; */
+          } 
+
+          #prev-chap {
+            height: 30px;
+            width: 120px;
+          }
+          
+          #side {
+            background-color: #E4E4E4;
+          }
+
+          #main {
+            background-color: white;
+          }
+
+          .nav-link:hover {
+            color: var(--bs-primary);
+          }
+          p {
+            color: black;
+          }
+          
+        </style>
+
+
+        <script type="text/javascript">
+
+          document.addEventListener("DOMContentLoaded", function(){
+
+            document.querySelectorAll('.sidebar .nav-link').forEach(function(element){
+
+              element.addEventListener('click', function (e) {
+
+                let nextEl = element.nextElementSibling;
+                let parentEl  = element.parentElement;	
+
+                if(nextEl) {
+                  e.preventDefault();	
+                  let mycollapse = new bootstrap.Collapse(nextEl);
+
+                    if(nextEl.classList.contains('show')){
+                      mycollapse.hide();
+                    } else {
+                      mycollapse.show();
+                      // find other submenus with class=show
+                      var opened_submenu = parentEl.parentElement.querySelector('.submenu.show');
+                      // if it exists, then close all of them
+                    if(opened_submenu){
+                      new bootstrap.Collapse(opened_submenu);
+                    }
+
+                    }
+                  }
+
+              });
+            })
+
+          }); 
+          // DOMContentLoaded  end
+        </script>
+    </head>
+    <body>
+        
+        <div class="">
+            <div class="row content">
+              <div class="col-sm-3 sidebar">
+                <ul id="nav_accordion" class="nav flex-column"><br>
+                  {% if user.username %}
+                    <li class="nav-item">
+                      <h4>Xin chào {{user.username}} {% block notifications %}{% endblock notifications %}</h4>
+                    </li>
+                    <br>
+                    <li class = "nav-item">
+                      <a class="nav-link" href="{% url 'mangas:list-mangas' %}">Home</a></li>
+                    </li>
+                    <li class = "nav-item has-submenu">
+                      <a class="nav-link" href=""> Account <i class="bi small bi-caret-down-fill"></i> </a>
+                        <ul class="submenu collapse">
+                          <li><a class="nav-link" href="{% url 'accounts:logout' %}">Logout </a></li>
+                        </ul>
+                    </li>
+                    <!-- <li class="nav-item">
+                      <a class="nav-link" href="{% url 'accounts:logout' %}">Đăng xuất</a>
+                    </li> -->
+                  {% else %}
+                    <li class = "nav-item">
+                      <a class="nav-link" href="{% url 'mangas:list-mangas' %}">Home</a></li>
+                    </li>
+                    <li class = "nav-item has-submenu">
+                      <a class="nav-link" href=""> Account <i class="bi small bi-caret-down-fill"></i> </a>
+                        <ul class="submenu collapse">
+                          <li><a class="nav-link" href="{% url 'accounts:register' %}">Register</a></li>
+                          <li><a class="nav-link" href="{% url 'accounts:login' %}">Login</a></li>
+                        </ul>
+                    </li>
+                    <!-- <li class="nav-item">
+                      <a class="nav-link" href="{% url 'accounts:register' %}">Đăng ký</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'accounts:login' %}">Đăng nhập</a>
+                    </li> -->
+                  {% endif %}
+
+                  <li class = "nav-item has-submenu">
+                    <a class="nav-link" href=""> Mangas <i class="bi small bi-caret-down-fill"></i> </a>
+                      <ul class="submenu collapse">
+                        <li><a class="nav-link" href="{% url 'mangas:list-mangas' %}">List Mangas</a></li>
+                        <li><a class="nav-link" href="{% url 'mangas:create-manga' %}">Create Mangas</a></li>
+                        <li><a class="nav-link" href="{% url 'mangas:my-mangas' %}">My Mangas</a></li>
+                      </ul>
+                  </li>
+                </ul>
+
+                <!-- <ul class="nav flex-column">
+                  {% if messages %}
+                    {% for message in messages %}
+                      <div class="alert alert-success">
+                        <strong>{{ message }}</strong>
+                      </div>
+                    {% endfor %}
+                  {% endif %}
+                  {% if success %}
+                    <div class="alert alert-success">
+                        <strong>{{success}}</strong>
+                    </div>
+                  {% endif %}
+                  <li {% if request.path == "/mangas/list-mangas/" %}class="nav-item active"{% endif %}>
+                    <a href="{% url 'mangas:list-mangas' %}">List Mangas</a>
+                  </li>
+                  <li {% if request.path == "/mangas/create-manga/" %}class="nav-item active"{% endif %}>
+                    <a href="{% url 'mangas:create-manga' %}">Create Mangas</a>
+                  </li>
+                </ul><br> -->
+              </div>        
+              <div  class="col-sm-9">
+                  {% block content %}
+                  {% endblock content %}
+              </div>
+            </div>
+            <div class="push"></div>
+          </div>          
+          <div class="footer">
+            <footer class="container-fluid">
+              <p>Mangareader</p>
+            </footer>
+          </div>
+    </body>
+</html>

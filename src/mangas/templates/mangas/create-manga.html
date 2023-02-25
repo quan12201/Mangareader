@@ -1,0 +1,43 @@
+<!-- mangas/templates/mangas/create-manga.html -->
+
+{% extends "layouts/layout.html" %}
+{% block title %}
+    Create Manga | {{ block.super }}
+{% endblock title %}
+{% block content %}
+  <h4><small>Create Mangas</small></h4>
+  <hr>
+  <div class="card-body">
+    <div class="table-responsive">
+      <form action="{% url 'mangas:create-manga' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <!-- {{ form.as_p }} -->
+        <div class="form-group">                    
+          <label for="comment">Name<span style="color: red">*</span> :</label>
+          <input type="text" class="form-control" rows="5" name="name" required>
+        </div>
+        <div class="form-group">
+          <label for="comment">Content<span style="color: red">*</span> :</label>
+          <textarea class="form-control" rows="5" name="content" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="comment">Type<span style="color: red">*</span> :</label>
+            <textarea class="form-control" rows="5" name="type" required></textarea>
+        </div>
+        <!-- <div class="form-group">
+            <label for="comment">Number of chapters<span style="color: red">*</span> :</label>
+            <textarea class="form-control" rows="5" name="num_of_chapters" required></textarea>
+        </div> -->
+        <!-- <div class="form-group">
+            <label for="comment">Author<span style="color: red">*</span> :</label>
+            <textarea class="form-control" rows="5" name="author" required></textarea>
+        </div> -->
+        <div class="form-group">
+          <label for="comment">Cover<span style="color: red">*</span> :</label>
+          <input type="file" class="form-control" rows="5" name="cover" required>
+        </div>
+        <button class="btn btn-secondary" type="submit">Create Manga</button>
+      </form>
+    </div>
+  </div>
+{% endblock content %}

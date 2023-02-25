@@ -1,0 +1,35 @@
+<!-- mangas/templates/mangas/CONTENT.html -->
+{% extends "layouts/layout.html" %}
+{% block title %}
+    {{manga.name}} {{ block.super }}
+{% endblock title %}
+{% block content %}
+  <!-- {% if volumes %}
+    {% for volume in volumes %}
+      <h4><small>{{ volume.name }}</small></h4>
+    {% endfor %}
+  {% endif %} --> 
+  <h4>{{manga.name}}</h4>
+  <hr>
+  {% if chapters %}
+    <h2>{{volume.name}} - {{chapterName}}</h2>
+    <div class="center-div">
+      {% if prev_chapter != "" %}
+        <a id ="prev-chap" class="btn btn-primary btn-lg" role="button" href="{% url 'mangas:content' pk=manga.id volume_id=prev_vol.name chapter_name=prev_chapter %}">Previous {{prev}}</a>
+      {% endif %}
+      {% if next_chapter != "" %}
+        <a id ="next-chap" class="btn btn-primary btn-lg" role="button" href="{% url 'mangas:content' pk=manga.id volume_id=next_vol.name chapter_name=next_chapter %}">Next {{next}}</a>
+      {% endif %} 
+    </div>
+    <br>
+    {% for chapter in chapters %}
+      <img src = "{{chapter.images.url}}">
+      <!-- {% if volume.manga_id == manga.id %}
+        <img src = "{{chapter.images.url}}">
+      {% endif %} -->
+    <br><br>
+    {% endfor %}
+  {% else %}
+    No Images.
+  {% endif %}
+{% endblock content %}
